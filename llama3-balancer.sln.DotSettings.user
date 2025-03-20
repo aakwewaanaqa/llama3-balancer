@@ -6,5 +6,6 @@
     &lt;TestId&gt;NUnit3x::9CCFB256-3BE5-4700-A000-4FAD6EFC96B5::net9.0::Unitests.Tests.TestRunAndRemove&lt;/TestId&gt;&#xD;
     &lt;TestId&gt;NUnit3x::9CCFB256-3BE5-4700-A000-4FAD6EFC96B5::net9.0::Unitests.Tests.TestRunAndExecute&lt;/TestId&gt;&#xD;
     &lt;TestId&gt;NUnit3x::9CCFB256-3BE5-4700-A000-4FAD6EFC96B5::net9.0::Unitests.Tests.RunTwo&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::9CCFB256-3BE5-4700-A000-4FAD6EFC96B5::net9.0::Unitests.Tests.RunThree&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>

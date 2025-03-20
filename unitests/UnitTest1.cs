@@ -78,7 +78,26 @@ public class Tests {
 
     [Test]
     public async Task RunTwo() {
-        await Task.WhenAll(TestRunAndExecute(), TestRunAndExecute());
+        await Task.WhenAll(
+        TestRunAndExecute(),
+        TestRunAndExecute());
+    }
+
+    [Test]
+    public async Task RunThree() {
+        await Task.WhenAll(
+        TestRunAndExecute(),
+        TestRunAndExecute(),
+        TestRunAndExecute());
+    }
+    
+    [Test]
+    public async Task RunFour() {
+        await Task.WhenAll(
+        TestRunAndExecute(),
+        TestRunAndExecute(),
+        TestRunAndExecute(),
+        TestRunAndExecute());
     }
 
     [TearDown]
