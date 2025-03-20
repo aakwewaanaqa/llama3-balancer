@@ -7,10 +7,9 @@ using Llama3.Balancer.Common;
 namespace Llama3.Balancer.Services.Docker;
 
 public class ContainerWrapper : IDisposable {
-    public string       Id        { get; init; }
-    public Process      ShProcess { get; private set; }
-    public StreamWriter StdIn     { get; private set; }
-    public StreamReader StdOut    { get; private set; }
+    public string Id  { get; init; }
+    public string Ip  { get; init; }
+    public string Url { get; init; }
 
     /// <summary>
     ///     Stops this container.
@@ -50,73 +49,7 @@ public class ContainerWrapper : IDisposable {
         }
     }
 
-    /// <summary>
-    ///     Runs docker exec interactively.
-    /// </summary>
-    /// <returns>self</returns>
-    public async Task<Response<ContainerWrapper>> StartSh() {
-        try {
-            var startInfo = new ProcessStartInfo {
-                FileName               = "docker",
-                Arguments              = $"exec -i {Id} sh",
-                RedirectStandardInput  = true,
-                RedirectStandardOutput = true,
-                RedirectStandardError  = true,
-            };
-            ShProcess = Process.Start(startInfo);
-
-            string error = await ShProcess.StandardError.ReadToEndAsync();
-            if (!string.IsNullOrEmpty(error)) throw new Exception(error);
-
-            this.StdIn  = ShProcess.StandardInput;
-            this.StdOut = ShProcess.StandardOutput;
-
-            return new Response<ContainerWrapper> {
-                status    = (int)HttpStatusCode.OK,
-                errorCode = DockerErrorCode.OK,
-                value     = this,
-            };
-        }
-        catch (Exception e) {
-            return new Response<ContainerWrapper> {
-                status    = (int)HttpStatusCode.InternalServerError,
-                errorCode = DockerErrorCode.START_SH_FAIL,
-                message   = e.Message,
-                value     = this,
-            };
-        }
-    }
-
-    public async Task<Response<ContainerWrapper>> SendCommand(string command) {
-        try {
-            if (StdIn is null) throw new NullReferenceException("StdIn is null");
-            await StdIn.WriteLineAsync(command);
-
-            string error = await StdOut.ReadToEndAsync();
-            if (!string.IsNullOrEmpty(error)) throw new Exception(error);
-
-            string message = await StdOut.ReadToEndAsync();
-            return new Response<ContainerWrapper> {
-                status    = (int)HttpStatusCode.OK,
-                errorCode = DockerErrorCode.OK,
-                message   = message,
-                value     = this,
-            };
-        }
-        catch (Exception e) {
-            return new Response<ContainerWrapper> {
-                status    = (int)HttpStatusCode.InternalServerError,
-                errorCode = DockerErrorCode.SEND_SH_FAIL,
-                message   = e.Message,
-                value     = this,
-            };
-        }
-    }
-
     public void Dispose() {
-        StdIn?.Dispose();
-        StdOut?.Dispose();
-        ShProcess.Dispose();
         GC.SuppressFinalize(this);
     }
 }

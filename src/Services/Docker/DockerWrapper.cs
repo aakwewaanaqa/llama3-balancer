@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using System.Net;
+using System.Text.RegularExpressions;
 using aimy_galaxy_proxy.Common;
 using Docker.DotNet;
 using Docker.DotNet.Models;
@@ -42,12 +43,26 @@ public class DockerWrapper : IDisposable {
                 };
             }
 
+            string id  = message.Trim();
+            string ip  = null;
+            string url = null;
+            if (!string.IsNullOrEmpty(args.PortMapping)) {
+                var regex              = new Regex("(.+):.+");
+                var match              = regex.Match(args.PortMapping);
+                if (match.Success) url = $"http://localhost:{match.Groups[1].Value}";
+            }
+
+            var inspectResponse = await _client.Containers.InspectContainerAsync(id);
+            ip = inspectResponse.NetworkSettings.IPAddress;
+
             return new Response<ContainerWrapper> {
                 status    = (int)HttpStatusCode.OK,
                 errorCode = DockerErrorCode.OK,
                 message   = message,
                 value = new ContainerWrapper {
-                    Id = message.Trim()
+                    Id  = id,
+                    Ip  = ip,
+                    Url = url,
                 }
             };
         };

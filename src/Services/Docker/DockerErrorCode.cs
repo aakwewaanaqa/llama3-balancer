@@ -5,6 +5,5 @@ public struct DockerErrorCode {
     public const int CREATE_CONTAINER_FAIL  = 1;
     public const int STOP_CONTAINER_FAIL    = 2;
     
-    public const int START_SH_FAIL = 100;
-    public const int SEND_SH_FAIL = 101;
+    public const int EXEC_CONTAINER_FAIL = 101;
 }
