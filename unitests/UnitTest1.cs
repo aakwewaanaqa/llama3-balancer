@@ -1,4 +1,5 @@
-﻿using aimy_galaxy_proxy.Common;
+﻿using System.Diagnostics;
+using aimy_galaxy_proxy.Common;
 using Docker.DotNet;
 using Docker.DotNet.Models;
 using Llama3.Balancer.Services.Docker;
@@ -7,14 +8,20 @@ using Newtonsoft.Json;
 namespace Unitests;
 
 [TestFixture]
-public class Tests {
+public class PressureTests {
+    private Stopwatch     _stopWatch;
     private DockerWrapper _docker;
     private HttpClient    _http;
 
     [SetUp]
     public void Setup() {
+        _stopWatch = new Stopwatch();
+        _stopWatch.Start();
+        
         _docker = new DockerWrapper();
-        _http   = new HttpClient();
+        _http = new HttpClient {
+            Timeout = TimeSpan.FromMinutes(10)
+        };
     }
 
     [Test]
@@ -36,8 +43,7 @@ public class Tests {
         That(response.value.Id,  Not.Null);
     }
 
-    [Test]
-    public async Task TestRunAndExecute() {
+    private async Task TestRunAndExecute() {
         var random = new Random().NextInt64(1000, 2000);
         var response = await
             (_docker.CreateContainer, new RunArgs {
@@ -77,6 +83,13 @@ public class Tests {
     }
 
     [Test]
+    public async Task RunOne() {
+        await Task.WhenAll(
+        TestRunAndExecute());
+    }
+
+
+    [Test]
     public async Task RunTwo() {
         await Task.WhenAll(
         TestRunAndExecute(),
@@ -90,7 +103,7 @@ public class Tests {
         TestRunAndExecute(),
         TestRunAndExecute());
     }
-    
+
     [Test]
     public async Task RunFour() {
         await Task.WhenAll(
@@ -102,7 +115,11 @@ public class Tests {
 
     [TearDown]
     public void TearDown() {
+        _stopWatch.Stop();
+        Console.WriteLine(_stopWatch.Elapsed);
+        
         _docker.Dispose();
         _http.Dispose();
+        
     }
 }
