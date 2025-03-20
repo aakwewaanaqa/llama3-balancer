@@ -1,0 +1,9 @@
+﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=7020124F_002D9FFC_002D4AC3_002D8F3D_002DAAB8E0240759_002Ff_003ACreateContainerParameters_002EGenerated_002Ecs_002Fl_003AC_0021_003FUsers_003FUSER_003FAppData_003FRoaming_003FJetBrains_003FRider2024_002E3_003Fresharper_002Dhost_003FSourcesCache_003Fa6fd8ed55fa7e05c8822ef256b216c6e43d52cb17b368ea069b97b316c8b_003FCreateContainerParameters_002EGenerated_002Ecs/@EntryIndexedValue">ForceIncluded</s:String>
+	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=7020124F_002D9FFC_002D4AC3_002D8F3D_002DAAB8E0240759_002Ff_003AEmptyStruct_002Ecs_002Fl_003AC_0021_003FUsers_003FUSER_003FAppData_003FRoaming_003FJetBrains_003FRider2024_002E3_003Fresharper_002Dhost_003FSourcesCache_003F30a04866169ae46517d31df170b1a65c933bf9bae7fbd49ccbd4b69305f1b50_003FEmptyStruct_002Ecs/@EntryIndexedValue">ForceIncluded</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=9eb56307_002Dbdaa_002D46fb_002D9f50_002D3e50f00bb6be/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="TestRun1" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::9CCFB256-3BE5-4700-A000-4FAD6EFC96B5::net9.0::Unitests.Tests.TestRunAndRemove&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::9CCFB256-3BE5-4700-A000-4FAD6EFC96B5::net9.0::Unitests.Tests.TestRunAndExecute&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>

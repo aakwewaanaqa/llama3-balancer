@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "llama3-balancer", "llama3-balancer.csproj", "{F60527BD-A09D-4DDD-822C-D3436FB23456}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "unitests", "unitests\unitests.csproj", "{9CCFB256-3BE5-4700-A000-4FAD6EFC96B5}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F60527BD-A09D-4DDD-822C-D3436FB23456}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F60527BD-A09D-4DDD-822C-D3436FB23456}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F60527BD-A09D-4DDD-822C-D3436FB23456}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F60527BD-A09D-4DDD-822C-D3436FB23456}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9CCFB256-3BE5-4700-A000-4FAD6EFC96B5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9CCFB256-3BE5-4700-A000-4FAD6EFC96B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9CCFB256-3BE5-4700-A000-4FAD6EFC96B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9CCFB256-3BE5-4700-A000-4FAD6EFC96B5}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
