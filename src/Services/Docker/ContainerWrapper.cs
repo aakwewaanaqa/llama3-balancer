@@ -7,9 +7,20 @@ using Llama3.Balancer.Common;
 namespace Llama3.Balancer.Services.Docker;
 
 public class ContainerWrapper : IDisposable {
-    public string Id  { get; init; }
-    public string Ip  { get; init; }
-    public string Url { get; init; }
+    /// <summary>
+    ///     Id for docker to operate with.
+    /// </summary>
+    public string Id { get; init; }
+
+    /// <summary>
+    ///     The address of the container in the network of docker.
+    /// </summary>
+    public string InnerIp { get; init; }
+
+    /// <summary>
+    ///     The forwarded url for host to connect at localhost.
+    /// </summary>
+    public string HostUrl { get; init; }
 
     /// <summary>
     ///     Stops this container.
@@ -34,7 +45,7 @@ public class ContainerWrapper : IDisposable {
 
             return new Response<ContainerWrapper> {
                 status    = (int)HttpStatusCode.OK,
-                errorCode = DockerErrorCode.OK,
+                errorCode = ErrorCode.OK,
                 message   = message,
                 value     = this,
             };
@@ -42,7 +53,7 @@ public class ContainerWrapper : IDisposable {
         catch (Exception e) {
             return new Response<ContainerWrapper> {
                 status    = (int)HttpStatusCode.InternalServerError,
-                errorCode = DockerErrorCode.STOP_CONTAINER_FAIL,
+                errorCode = ErrorCode.STOP_CONTAINER_FAIL,
                 message   = e.Message,
                 value     = this,
             };

@@ -134,4 +134,21 @@ public static class TaskExts {
             return await previous();
         };
     }
+
+    public static PipeOut<TResult> Log<TResult>(this PipeOut<TResult> previous, string log) {
+        return async () => {
+            Console.WriteLine(log);
+            return await previous();
+        };
+    }
+    
+    public static async Task<TResult> Guard<TResult>(this Task<TResult> task) {
+        try {
+            var result = await task;
+            return result;
+        }
+        catch {
+            return default;
+        }
+    }
 }

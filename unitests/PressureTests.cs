@@ -17,8 +17,10 @@ public class PressureTests {
     public void Setup() {
         _stopWatch = new Stopwatch();
         _stopWatch.Start();
-        
-        _docker = new DockerWrapper();
+
+        _docker = new DockerWrapper(
+        new DockerClientConfiguration().CreateClient());
+
         _http = new HttpClient {
             Timeout = TimeSpan.FromMinutes(10)
         };
@@ -27,7 +29,7 @@ public class PressureTests {
     [Test]
     public async Task TestRunAndRemove() {
         var response = await
-            (_docker.CreateContainer, new RunArgs {
+            (_docker.RunContainer, new RunArgs {
                 ImageTag       = "ponito/built-llama3",
                 IsInteractive  = true,
                 IsRemoveOnStop = true,
@@ -46,22 +48,25 @@ public class PressureTests {
     private async Task TestRunAndExecute() {
         var random = new Random().NextInt64(1000, 2000);
         var response = await
-            (_docker.CreateContainer, new RunArgs {
+            (_docker.RunContainer, new RunArgs {
                 ImageTag       = "ponito/built-llama3",
                 IsInteractive  = true,
                 IsRemoveOnStop = true,
                 GpuCount       = -1,
-                PortMapping    = $"{random}:11434",
+                PortMap = new PortMap {
+                    HostPort      = (uint)random,
+                    ContainerPort = 11434,
+                },
             })
            .Start()
            .Delay(TimeSpan.FromSeconds(3))
            .FunctionAsync(async it => {
-                var    get = await _http.GetAsync(it.value.Url);
+                var    get = await _http.GetAsync(it.value.HostUrl);
                 string str = await get.Content.ReadAsStringAsync();
                 Console.WriteLine(str);
                 That(str, Not.Null);
 
-                string endpoint = $"{it.value.Url}/api/generate";
+                string endpoint = $"{it.value.HostUrl}/api/generate";
                 string json = JsonConvert.SerializeObject(new {
                     model  = "llama3",
                     prompt = "Read me a story~",
@@ -117,9 +122,8 @@ public class PressureTests {
     public void TearDown() {
         _stopWatch.Stop();
         Console.WriteLine(_stopWatch.Elapsed);
-        
+
         _docker.Dispose();
         _http.Dispose();
-        
     }
 }

@@ -1,10 +1,25 @@
+using Docker.DotNet;
+
 namespace Llama3.Balancer;
 
 public static class Program {
-
     private static WebApplicationBuilder CreateBuilder(string[] args) {
         var builder = WebApplication.CreateBuilder(args);
+
+        #region Singleton
+
+        builder.Services
+               .AddSingleton(
+                new DockerClientConfiguration().CreateClient());
+
+        #endregion
+
+        #region Views
+
         builder.Services.AddRazorPages();
+
+        #endregion
+
         return builder;
     }
 
