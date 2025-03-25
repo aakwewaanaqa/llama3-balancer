@@ -12,6 +12,10 @@
     </ItemGroup>
     
     <ItemGroup>
+        <Using Include="Llama3.Balancer.Common" Static="true"/>
+    </ItemGroup>
+    
+    <ItemGroup>
         <Folder  Include="unitests\"/>
         <Compile Remove="unitests\**"/>
     </ItemGroup>

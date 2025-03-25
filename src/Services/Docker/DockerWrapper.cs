@@ -11,7 +11,9 @@ namespace Llama3.Balancer.Services.Docker;
 /// <summary>
 ///     Docker services wrapped inside a wrapper.
 /// </summary>
-public class DockerWrapper(DockerClient _client) : IDisposable {
+public class DockerWrapper(
+HttpClient   _http,
+DockerClient _client) : IDisposable {
     /// <summary>
     ///     Creates a container.
     /// </summary>
@@ -20,7 +22,7 @@ public class DockerWrapper(DockerClient _client) : IDisposable {
         async argsResponse => {
             if (argsResponse.IsNotOk) return argsResponse.As<ContainerWrapper>();
             var args = argsResponse.value;
-            
+
             var startInfo = new ProcessStartInfo {
                 FileName               = "docker",
                 Arguments              = $"container run {args}",
@@ -47,23 +49,40 @@ public class DockerWrapper(DockerClient _client) : IDisposable {
                 message   = message,
                 value =
                     new ContainerWrapper {
-                        Id =
-                            message.Trim(),
+                        Id = message.Trim(),
+                        HostUrl = args.PortMap.HasHost
+                            ? $"http://localhost:{args.PortMap.HostPort}"
+                            : null,
                         InnerIp =
                             (await _client
                                   .Containers
                                   .InspectContainerAsync(message.Trim())
                                   .Guard()
                             ).NetworkSettings.IPAddress,
-                        HostUrl =
-                            args.PortMap.HasHost
-                                ? $"http://localhost:{args.PortMap.HostPort}"
-                                : null,
                     }
             };
         };
 
+    public Convert<(Response<ContainerWrapper>, object), Response<HttpResponseMessage>> Post
+        => async tuple => {
+            (var ctnRsp, object rawObj) = tuple;
+            if (ctnRsp.IsNotOk) return ctnRsp.As<HttpResponseMessage>();
+            string url          = ctnRsp.value.HostUrl;
+            var    httpResponse = await _http.PostAsJsonAsync(url, rawObj);
+            bool   httpIsOk     = httpResponse.IsSuccessStatusCode;
+            return new Response<HttpResponseMessage> {
+                status = (int)httpResponse.StatusCode,
+                errorCode = httpIsOk
+                    ? ErrorCode.OK
+                    : ErrorCode.POST_CONTAINER_FAIL,
+                message = httpResponse.ReasonPhrase,
+                value   = httpResponse,
+            };
+        };
+
     public void Dispose() {
+        // Do not do this, because it is handled by Di
+        // _http?.Dispose();
         _client?.Dispose();
         GC.SuppressFinalize(this);
     }

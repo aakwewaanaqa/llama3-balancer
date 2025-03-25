@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Llama3.Balancer.Services.Engine;
 
+[Controller]
 [Route("ctl/services")]
 public class ServiceController(PodController _podController) : Controller {
     /// <summary>

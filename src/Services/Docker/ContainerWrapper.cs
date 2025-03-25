@@ -23,6 +23,11 @@ public class ContainerWrapper : IDisposable {
     public string HostUrl { get; init; }
 
     /// <summary>
+    ///     Checks whether it is connectable from host.
+    /// </summary>
+    public bool HasHostUrl => !string.IsNullOrEmpty(HostUrl);
+    
+    /// <summary>
     ///     Stops this container.
     /// </summary>
     /// <returns>Stopped one.</returns>

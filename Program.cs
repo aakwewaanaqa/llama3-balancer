@@ -1,4 +1,5 @@
 using Docker.DotNet;
+using Llama3.Balancer.Services.Docker;
 
 namespace Llama3.Balancer;
 
@@ -14,9 +15,17 @@ public static class Program {
 
         #endregion
 
+        #region Transient
+
+        builder.Services
+               .AddTransient<DockerWrapper>()
+               .AddHttpClient<DockerWrapper>();
+
+        #endregion
+
         #region Views
 
-        builder.Services.AddRazorPages();
+        builder.Services.AddRazorComponents();
 
         #endregion
 

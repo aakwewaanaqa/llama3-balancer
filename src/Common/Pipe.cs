@@ -29,3 +29,9 @@ public delegate Task<TResult> Pipe<TResult>(TResult t);
 ///     A function receiving <see cref="TResult"/>, <see cref="TArg"/> is used to produce <see cref="Task{TResult}"/>
 /// </summary>
 public delegate Task<TResult> Pipe<TResult, in TArg>(TResult t, TArg u);
+
+public static class Pipe {
+    public static PipeOut<T> Start<T>(T arg) {
+        return async () => arg;
+    }
+}

@@ -1,4 +1,6 @@
-namespace aimy_galaxy_proxy.Common;
+using aimy_galaxy_proxy.Common;
+
+namespace Llama3.Balancer.Common;
 
 /// <summary>
 ///     To convert every delegate to a single <see cref="PipeOut{T}"/>,
